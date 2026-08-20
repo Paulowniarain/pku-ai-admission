@@ -300,6 +300,35 @@
       "top_k": 5,
       "expected_any_id_groups": [["bkzs-home", "bkzs-notices-index"]],
       "required_guards": ["requires_live_check"]
+    },
+    {
+      "id": "tongban-one-two-admissions",
+      "query": "通班一招和二招分别是什么",
+      "top_k": 6,
+      "expected_any_id_groups": [["yuanpei-tongban-guide-2021", "bkzs-talent-programs-2025"]],
+      "required_guards": ["requires_live_check", "historical_only_risk"],
+      "forbidden_top1_ids": ["yuanpei-tongban-guide-2021"]
+    },
+    {
+      "id": "tongban-current-forty-to-fifty",
+      "query": "通班现在是不是每年招40到50人",
+      "top_k": 6,
+      "expected_any_id_groups": [["yuanpei-tongban-guide-2021"]],
+      "required_guards": ["requires_live_check", "historical_only_risk"],
+      "forbidden_top1_ids": ["yuanpei-tongban-guide-2021"]
+    },
+    {
+      "id": "tongban-degree",
+      "query": "通班人工智能学士学位和智班智能科学与技术学士学位有什么区别",
+      "top_k": 6,
+      "expected_any_id_groups": [["pku-news-tongban-zhiban"]],
+      "required_guards": ["entity_confusion"]
+    },
+    {
+      "id": "tongban-curriculum-research-rotation",
+      "query": "通班课程体系包括哪些，科研轮转是什么",
+      "top_k": 6,
+      "expected_any_id_groups": [["yuanpei-tongban-guide-2021", "pku-news-tongban-zhiban", "bkzs-talent-programs-2025"]]
     }
   ]
 }

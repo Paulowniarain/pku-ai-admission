@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "checked_at": "2026-08-11",
-  "source_policy": "仅收录北京大学官方域名；动态事实仍须在回答当日回查原页。",
+  "source_policy": "本文件仅收录北京大学官方域名；动态事实仍须在回答当日回查原页。用户授权公开但无官网原页的通班补充材料另见 references/tongban-supplement.md，不得伪装成官方来源。",
   "sources": [
     {
       "id": "bkzs-home",
