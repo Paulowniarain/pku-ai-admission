@@ -1,7 +1,8 @@
 """Shared library for the pku-ai-admissions skill.
 
-Loads references/sources.json, normalizes Chinese queries, expands synonyms,
-infers risk guards, filters and scores sources. Used by search_sources.py and
+Loads the provenance-labelled local knowledge base and references/sources.json,
+normalizes Chinese queries, expands synonyms, infers risk guards, then scores
+local material before official sources. Used by search_sources.py and
 eval_retrieval.py so both share one ranking implementation.
 
 Standard library only. All data paths derive from this file's location, never
@@ -16,9 +17,12 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 SKILL_ROOT = SCRIPT_DIR.parent
 DEFAULT_SOURCES_PATH = SKILL_ROOT / "references" / "sources.json"
+DEFAULT_LOCAL_KNOWLEDGE_PATH = SKILL_ROOT / "references" / "local-knowledge.json"
 DEFAULT_CASES_PATH = SKILL_ROOT / "references" / "eval-cases.json"
 
-SCOPES = ("pku-general", "yuanpei", "tongban", "ai-discipline")
+OFFICIAL_SCOPES = ("pku-general", "yuanpei", "tongban", "ai-discipline")
+LOCAL_ONLY_SCOPES = ("thu-general", "thu-ai-cs", "cross-school-comparison")
+SCOPES = OFFICIAL_SCOPES + LOCAL_ONLY_SCOPES
 STAGES = ("general", "undergraduate", "master", "doctoral", "summer-camp")
 AUTHORITIES = ("central-admissions", "school-or-institute", "academic-unit")
 SOURCE_TYPES = ("portal", "index", "overview", "annual-notice", "training-plan", "contact", "news")
@@ -34,6 +38,8 @@ REQUIRED_FIELDS = (
 # “人工智能实验班” is not mapped to either side.
 SYNONYM_GROUPS = [
     ("北京大学", "北大"),
+    ("清华大学", "清华"),
+    ("北京大学和清华大学", "北清", "清北"),
     ("本科", "本招", "高考", "本科生", "普通高考"),
     ("研究生", "研招"),
     ("硕士", "硕招", "硕士研究生"),
@@ -46,6 +52,14 @@ SYNONYM_GROUPS = [
     ("智能学院",),
     ("人工智能研究院", "AI研究院", "北大AI研究院"),
     ("元培学院", "元培"),
+    ("无穹书院", "无穹"),
+    ("新雅书院", "新雅"),
+    ("姚班", "清华姚班", "计算机科学实验班"),
+    ("清华计算机系", "贵系", "清华CS", "清华计科"),
+    ("清华通班", "自动化系通班", "自动化系因材施教培养计划通用人工智能方向"),
+    ("清华书院", "清华书院制", "书院制"),
+    ("图灵班", "图班"),
+    ("信班", "电子信息科学类实验班"),
     ("信息科学技术学院", "信科"),
     ("强基计划", "强基"),
     ("培养方案", "培养计划"),
@@ -60,7 +74,8 @@ LIVE_CHECK_WORDS = (
     "录取", "目录", "导师", "费用", "学费", "校区", "联系", "电话", "邮箱",
     "咨询", "时间", "日期", "日程", "安排", "计划", "要求", "资格", "招生",
     "申请", "推免", "夏令营", "入营", "选拔", "多少人", "多少名", "怎么报", "如何报",
-    "一招", "二招", "直招", "高考直招", "校内选拔",
+    "一招", "二招", "直招", "高考直招", "校内选拔", "培养方案", "课程",
+    "选课", "转专业", "论文", "科研成果", "多少",
 )
 
 CURRENT_WORDS = (
@@ -104,16 +119,54 @@ def load_sources(path=None):
     return meta, sources
 
 
+def load_local_knowledge(path=None):
+    """Return (meta, sources_by_id, chunks) for the curated local database."""
+    path = Path(path) if path else DEFAULT_LOCAL_KNOWLEDGE_PATH
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict) or not isinstance(data.get("sources"), list):
+        raise ValueError("local-knowledge.json 顶层必须是含 sources 数组的对象")
+    if not isinstance(data.get("chunks"), list):
+        raise ValueError("local-knowledge.json 顶层必须含 chunks 数组")
+    sources_by_id = {
+        source.get("id"): source
+        for source in data["sources"]
+        if isinstance(source, dict) and isinstance(source.get("id"), str)
+    }
+    meta = {k: v for k, v in data.items() if k not in ("sources", "chunks")}
+    return meta, sources_by_id, data["chunks"]
+
+
 def _mentions(query_norm):
     """Detect well-defined entity mentions in a normalized query."""
+    thu_tongban = (
+        "清华通班" in query_norm
+        or "自动化系通班" in query_norm
+        or "自动化系因材施教培养计划通用人工智能方向" in query_norm
+    )
+    thu_zhiban = "清华智班" in query_norm
     return {
-        "tongban": "通班" in query_norm or "通用人工智能实验班" in query_norm,
-        "zhiban": "智班" in query_norm or "智能科学与技术专业实验班" in query_norm
-                  or ("智能科学与技术" in query_norm and "实验班" in query_norm),
+        "tongban": ("通班" in query_norm or "通用人工智能实验班" in query_norm)
+                   and not thu_tongban,
+        "zhiban": (
+            "智班" in query_norm
+            or "智能科学与技术专业实验班" in query_norm
+            or ("智能科学与技术" in query_norm and "实验班" in query_norm)
+        ) and not thu_zhiban,
         "sai": "智能学院" in query_norm,
         "air": "人工智能研究院" in query_norm or "ai研究院" in query_norm,
         "yuanpei": "元培" in query_norm,
         "eecs": "信息科学技术学院" in query_norm or "信科" in query_norm,
+        "wuqiong": "无穹书院" in query_norm or "无穹" in query_norm,
+        "xinya": "新雅书院" in query_norm or "新雅" in query_norm,
+        "yaoclass": "姚班" in query_norm or "清华姚班" in query_norm or thu_zhiban,
+        "thu_cs": "清华计算机系" in query_norm or "贵系" in query_norm
+                  or "清华cs" in query_norm or "清华计科" in query_norm,
+        "thu_tongban": thu_tongban,
+        "thu_college": "清华书院" in query_norm or "清华书院制" in query_norm,
+        "thu": "清华" in query_norm,
+        "cross_school": "北清" in query_norm or "清北" in query_norm
+                        or ("北京大学" in query_norm and "清华大学" in query_norm)
+                        or ("北大" in query_norm and "清华" in query_norm),
     }
 
 
@@ -201,6 +254,13 @@ def analyze_query(query):
     if entity_hits >= 2:
         guards.append("entity_confusion")
 
+    thu_entity_hits = any(
+        m[key] for key in ("wuqiong", "xinya", "yaoclass", "thu_cs", "thu_tongban", "thu_college", "thu")
+    )
+    pku_entity_hits = any(
+        m[key] for key in ("tongban", "zhiban", "sai", "air", "yuanpei", "eecs")
+    )
+
     air_doctoral_intent = any(normalize(w) in q for w in ("博士", "博招", "申请考核")) or (
         "导师" in q and "硕士" not in q and "硕招" not in q
     )
@@ -220,14 +280,26 @@ def analyze_query(query):
         inferred_scopes.add("pku-general")
     if any(w in q for w in ("研究生", "硕士", "博士", "研招", "推免", "保研")):
         inferred_scopes.add("pku-general")
+    if m["xinya"] or m["thu_college"]:
+        inferred_scopes.add("thu-general")
+    if m["wuqiong"] or m["yaoclass"] or m["thu_cs"] or m["thu_tongban"]:
+        inferred_scopes.add("thu-ai-cs")
+    if m["cross_school"] or (thu_entity_hits and pku_entity_hits) or any(
+        word in q for word in ("对比", "比较", "怎么选", "选哪个", "区别")
+    ) and m["thu"] and ("北大" in q or "北京大学" in q):
+        inferred_scopes.add("cross-school-comparison")
 
     inferred_stages = set()
     if ambiguous or any(w in q for w in ("本科", "本招", "高考", "强基", "通班", "智班", "元培")):
+        inferred_stages.add("undergraduate")
+    if thu_entity_hits:
         inferred_stages.add("undergraduate")
     if any(w in q for w in ("硕士", "硕招")):
         inferred_stages.add("master")
     if any(w in q for w in ("博士", "博招", "申请考核")):
         inferred_stages.add("doctoral")
+    if any(w in q for w in ("研究生", "研招")) and not inferred_stages:
+        inferred_stages.update(("master", "doctoral"))
     if any(normalize(w) in q for w in CAMP_WORDS):
         inferred_stages.add("summer-camp")
     if not inferred_stages:
@@ -249,6 +321,7 @@ def analyze_query(query):
         "inferred_stages": sorted(inferred_stages),
         "mentions": {k: v for k, v in m.items() if v},
         "air_doctoral_intent": air_doctoral_intent,
+        "thu_only": thu_entity_hits and not pku_entity_hits and not m["cross_school"],
     }
 
 
@@ -268,6 +341,11 @@ def _has_numeric_cycle(cycles):
 
 def score_source(info, source):
     """Return (score, reasons). Deterministic, explainable field weights."""
+    # The official registry is intentionally PKU-only. A clearly Tsinghua-only
+    # query should not surface a PKU page merely because both use labels such
+    # as “通班” or “智班”.
+    if info.get("thu_only"):
+        return 0, []
     score = 0
     reasons = []
     evidence_match = False
@@ -380,7 +458,202 @@ def score_source(info, source):
     return score, reasons
 
 
-def search(query, scopes=None, stages=None, limit=5, sources=None):
+GENERIC_LOCAL_PHRASES = {
+    normalize(item) for item in (
+        "北京大学", "北大", "清华大学", "清华", "本科", "本科生",
+        "高考", "招生", "报名", "报考", "培养方案", "培养计划",
+    )
+}
+GENERIC_LOCAL_ANCHORS = {
+    normalize(item) for item in (
+        "招生", "报名", "报考", "申请", "咨询", "联系", "电话", "邮箱",
+        "时间", "日期", "要求", "条件", "计划",
+    )
+}
+
+
+def score_local_chunk(info, chunk):
+    """Return (score, reasons) for a provenance-labelled local chunk."""
+    inferred_stages = set(info["inferred_stages"])
+    if inferred_stages & {"master", "doctoral", "summer-camp"} and "undergraduate" not in inferred_stages:
+        if set(chunk.get("stage", [])) == {"undergraduate"}:
+            return 0, []
+    score = 0
+    reasons = []
+    evidence_match = False
+    specific_match = False
+    entities = [normalize(item) for item in chunk.get("entities", [])]
+    topics = [normalize(item) for item in chunk.get("topics", [])]
+    keywords = [normalize(item) for item in chunk.get("keywords", [])]
+    claims = [normalize(item) for item in chunk.get("claims", [])]
+    summary = normalize(chunk.get("summary"))
+    query = info["normalized_query"]
+
+    if len(query) >= 5 and query in summary:
+        score += 12
+        evidence_match = True
+        specific_match = True
+        reasons.append("完整查询命中摘要 +12")
+
+    for group in info["phrase_groups"]:
+        best = 0
+        where = ""
+        matched_phrase = ""
+        matched_norm = ""
+        for phrase in group:
+            term = normalize(phrase)
+            if not term or len(term) < 2:
+                continue
+            candidate = 0
+            candidate_where = ""
+            if any(term in value or value in term for value in entities if len(value) >= 2):
+                candidate, candidate_where = 12, "实体"
+            elif any(term in value or value in term for value in topics if len(value) >= 2):
+                candidate, candidate_where = 9, "主题"
+            elif any(term in value or value in term for value in keywords if len(value) >= 2):
+                candidate, candidate_where = 7, "关键词"
+            elif any(term in value for value in claims):
+                candidate, candidate_where = 4, "事实/限制"
+            elif term in summary:
+                candidate, candidate_where = 3, "摘要"
+            if candidate > best:
+                best = candidate
+                where = candidate_where
+                matched_phrase = phrase
+                matched_norm = term
+        if best:
+            score += best
+            evidence_match = True
+            if matched_norm not in GENERIC_LOCAL_PHRASES:
+                specific_match = True
+            reasons.append(f"{where}~'{matched_phrase}' +{best}")
+
+    anchors = {
+        normalize(item) for item in (
+            *LIVE_CHECK_WORDS,
+            "资源", "竞争", "成熟度", "导师指导", "校友网络", "行政归属",
+            "教学归属", "通识教育", "自由度", "风险", "课程衔接",
+        )
+        if len(normalize(item)) >= 2 and normalize(item) in query
+    }
+    for anchor in sorted(anchors):
+        if any(anchor in value for value in topics):
+            score += 8
+            evidence_match = True
+            if anchor not in GENERIC_LOCAL_ANCHORS:
+                specific_match = True
+            reasons.append(f"查询锚点~'{anchor}' 命中主题 +8")
+        elif any(anchor in value for value in keywords):
+            score += 6
+            evidence_match = True
+            if anchor not in GENERIC_LOCAL_ANCHORS:
+                specific_match = True
+            reasons.append(f"查询锚点~'{anchor}' 命中关键词 +6")
+        elif any(anchor in value for value in claims) or anchor in summary:
+            score += 3
+            evidence_match = True
+            if anchor not in GENERIC_LOCAL_ANCHORS:
+                specific_match = True
+            reasons.append(f"查询锚点~'{anchor}' 命中摘要/限制 +3")
+
+    chunk_scopes = set(chunk.get("scope", []))
+    inferred_scopes = set(info["inferred_scopes"])
+    if chunk_scopes & inferred_scopes:
+        score += 5
+        reasons.append("scope 命中 +5")
+    chunk_stages = set(chunk.get("stage", []))
+    if chunk_stages & set(info["inferred_stages"]):
+        score += 4
+        reasons.append("stage 命中 +4")
+
+    if info["years"] and chunk.get("as_of"):
+        if any(year in chunk["as_of"] for year in info["years"]):
+            score += 6
+            reasons.append("材料时间命中 +6")
+        else:
+            score -= 3
+            reasons.append("材料时间不符 -3")
+
+    if info["definition_intent"]:
+        if chunk.get("claim_class") == "stable-background":
+            score += 10
+            reasons.append("释义意图命中稳定背景 +10")
+        elif chunk.get("claim_class") == "dynamic-unverified":
+            score -= 5
+            reasons.append("释义意图降权动态说法 -5")
+
+    evidence_boost = {
+        "curated-supplement": 3,
+        "presentation": 2,
+        "personal-analysis": 1,
+        "internal-talking-points": 0,
+        "anecdote": -2,
+    }.get(chunk.get("evidence_type"), 0)
+    if evidence_boost:
+        score += evidence_boost
+        reasons.append(f"证据类型 {'+' if evidence_boost > 0 else ''}{evidence_boost}")
+    if chunk.get("confidence") == "medium":
+        score += 2
+        reasons.append("可信度 medium +2")
+
+    # School names and generic admissions words alone are not enough to make
+    # a non-official local chunk relevant.
+    if not evidence_match or not specific_match:
+        return 0, []
+    return score, reasons
+
+
+def search_local(info, scopes=None, stages=None, limit=5, local_sources=None, local_chunks=None):
+    """Search curated local chunks and attach source-level provenance."""
+    if local_sources is None or local_chunks is None:
+        _, local_sources, local_chunks = load_local_knowledge()
+    scopes = tuple(scopes or ())
+    stages = tuple(stages or ())
+    results = []
+    for chunk in local_chunks:
+        if not isinstance(chunk, dict):
+            continue
+        source = local_sources.get(chunk.get("source_id"))
+        if not source or not source.get("searchable", False):
+            continue
+        if scopes and not (set(chunk.get("scope", [])) & set(scopes)):
+            continue
+        if stages and not (set(chunk.get("stage", [])) & set(stages)):
+            continue
+        score, reasons = score_local_chunk(info, chunk)
+        if score <= 0:
+            continue
+        results.append({
+            "id": chunk.get("id"),
+            "source_id": chunk.get("source_id"),
+            "source_filename": source.get("filename"),
+            "source_sha256": source.get("sha256"),
+            "locator": chunk.get("locator", {}),
+            "score": score,
+            "reasons": reasons,
+            "scope": chunk.get("scope", []),
+            "stage": chunk.get("stage", []),
+            "entities": chunk.get("entities", []),
+            "topics": chunk.get("topics", []),
+            "summary": chunk.get("summary"),
+            "claims": chunk.get("claims", []),
+            "evidence_type": chunk.get("evidence_type"),
+            "claim_class": chunk.get("claim_class"),
+            "as_of": chunk.get("as_of"),
+            "confidence": chunk.get("confidence"),
+            "stance": chunk.get("stance"),
+            "requires_live_check": chunk.get("requires_live_check", False),
+            "usage_limit": chunk.get("usage_limit"),
+            "source_usage_limit": source.get("usage_limit"),
+        })
+    results.sort(key=lambda item: (-item["score"], item["id"]))
+    return results[:limit]
+
+
+def search(
+    query, scopes=None, stages=None, limit=5, sources=None,
+    local_sources=None, local_chunks=None,
+):
     """Search sources. scopes/stages are hard filters (intersection match).
     Returns a JSON-serializable dict."""
     if not normalize(query):
@@ -405,6 +678,14 @@ def search(query, scopes=None, stages=None, limit=5, sources=None):
     if sources is None:
         _, sources = load_sources()
     info = analyze_query(query)
+    local_results = search_local(
+        info,
+        scopes=scopes,
+        stages=stages,
+        limit=limit,
+        local_sources=local_sources,
+        local_chunks=local_chunks,
+    )
 
     def keep(src):
         if scopes and not (set(src.get("scope", [])) & set(scopes)):
@@ -481,7 +762,8 @@ def search(query, scopes=None, stages=None, limit=5, sources=None):
     if info["mentions"].get("air"):
         promote("ai-institute-overview", 0 if info["definition_intent"] else 2)
         route_question = any(w in info["normalized_query"] for w in ("依托", "院系", "报名路径"))
-        if info["air_doctoral_intent"] or (route_question and "master" not in info["inferred_stages"]):
+        explicit_master = any(w in info["normalized_query"] for w in ("硕士", "硕招"))
+        if info["air_doctoral_intent"] or (route_question and not explicit_master):
             promote("ai-institute-graduate-admissions", 1)
     if asks_tongban:
         promote("yuanpei-tongban-guide-2021", min(4 if tongban_dynamic else 1, limit - 1))
@@ -499,5 +781,7 @@ def search(query, scopes=None, stages=None, limit=5, sources=None):
         "inferred_scopes": info["inferred_scopes"],
         "inferred_stages": info["inferred_stages"],
         "guards": info["guards"],
+        "retrieval_order": ["local_results", "results", "live_official_web"],
+        "local_results": local_results,
         "results": results,
     }

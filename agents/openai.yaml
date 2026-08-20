@@ -1,4 +1,4 @@
 interface:
-  display_name: "北大招生咨询与智能学科核验"
-  short_description: "基于北大官方来源核验本科、研招、元培、通班与智能学科信息"
-  default_prompt: "Use $pku-ai-admissions to answer this Peking University admissions question with current official evidence and explicit time scope."
+  display_name: "北大招生咨询与北清智能项目核验"
+  short_description: "本地资料优先，随后用北大与清华官方来源核验招生和培养信息"
+  default_prompt: "Use $pku-ai-admissions to search the provenance-labelled local knowledge first, then verify dynamic claims with current official PKU or Tsinghua evidence and an explicit time scope."

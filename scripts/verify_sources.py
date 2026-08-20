@@ -17,8 +17,8 @@ sys.dont_write_bytecode = True
 from source_lib import (
     AUTHORITIES,
     DEFAULT_SOURCES_PATH,
+    OFFICIAL_SCOPES,
     REQUIRED_FIELDS,
-    SCOPES,
     SOURCE_TYPES,
     STAGES,
     TEMPORALS,
@@ -97,7 +97,7 @@ def validate_registry(data, as_of):
             urls.append(canonical)
 
         for field, allowed, counter in (
-            ("scope", SCOPES, scope_counts),
+            ("scope", OFFICIAL_SCOPES, scope_counts),
             ("stage", STAGES, stage_counts),
         ):
             values = source[field]
@@ -149,7 +149,7 @@ def validate_registry(data, as_of):
         duplicates = sorted(item for item, count in Counter(values).items() if count > 1)
         if duplicates:
             errors.append(f"重复{name}: {', '.join(duplicates)}")
-    for scope in SCOPES:
+    for scope in OFFICIAL_SCOPES:
         if not scope_counts[scope]:
             errors.append(f"scope 无覆盖: {scope}")
     for stage in STAGES:

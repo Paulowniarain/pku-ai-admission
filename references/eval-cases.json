@@ -328,7 +328,83 @@
       "id": "tongban-curriculum-research-rotation",
       "query": "通班课程体系包括哪些，科研轮转是什么",
       "top_k": 6,
-      "expected_any_id_groups": [["yuanpei-tongban-guide-2021", "pku-news-tongban-zhiban", "bkzs-talent-programs-2025"]]
+      "expected_any_id_groups": [["yuanpei-tongban-guide-2021", "pku-news-tongban-zhiban", "bkzs-talent-programs-2025"]],
+      "expected_local_any_id_groups": [["tongban-curriculum", "tongban-research-training"]]
+    },
+    {
+      "id": "local-wuqiong-curriculum",
+      "query": "无穹书院课程体系和AI+X怎么设计",
+      "top_k": 5,
+      "expected_local_any_id_groups": [["wuqiong-deck-curriculum", "wuqiong-deck-problem-led-training"]],
+      "required_guards": ["requires_live_check"],
+      "expect_no_official_results": true
+    },
+    {
+      "id": "local-wuqiong-maturity-risk",
+      "query": "无穹书院是新项目，培养方案成熟度和资源竞争有什么风险",
+      "top_k": 6,
+      "expected_local_any_id_groups": [["wuqiong-critique-maturity"], ["wuqiong-critique-resource-competition"]],
+      "required_guards": ["requires_live_check"]
+    },
+    {
+      "id": "local-thu-cs-curriculum",
+      "query": "清华计算机系本科课程和前沿AI内容应该问什么",
+      "top_k": 5,
+      "expected_local_any_id_groups": [["thu-cs-guide-curriculum-concerns", "thu-cs-guide-question-framework"]],
+      "expect_no_official_results": true
+    },
+    {
+      "id": "local-yaoclass-mentoring",
+      "query": "姚班名师指导和校友网络能不能真正落到本科生身上",
+      "top_k": 5,
+      "expected_local_any_id_groups": [["yaoclass-guide-mentoring-network"]],
+      "expect_no_official_results": true
+    },
+    {
+      "id": "local-xinya-freedom",
+      "query": "新雅书院专业选择、转专业和选课到底有多自由",
+      "top_k": 5,
+      "expected_local_any_id_groups": [["xinya-guide-curriculum-freedom", "thu-college-xinya-balanced"]],
+      "required_guards": ["requires_live_check"],
+      "expect_no_official_results": true
+    },
+    {
+      "id": "local-thu-college-system",
+      "query": "清华书院制为什么会有行政归属和教学归属分离的问题",
+      "top_k": 5,
+      "expected_local_any_id_groups": [["thu-college-system-overview"]],
+      "expect_no_official_results": true
+    },
+    {
+      "id": "local-pku-thu-entity-map",
+      "query": "北清CSAI项目里通班、智班、姚班、无穹分别指什么",
+      "top_k": 6,
+      "expected_local_any_id_groups": [["pku-thu-csai-entity-map"]],
+      "required_guards": ["entity_confusion"],
+      "expected_inferred_scopes": ["cross-school-comparison"]
+    },
+    {
+      "id": "local-tongban-outcomes-snapshot",
+      "query": "通班截至2025年12月有多少论文和科研项目",
+      "top_k": 5,
+      "expected_local_top1_ids": ["tongban-outcomes-2025-snapshot"],
+      "required_guards": ["requires_live_check"]
+    },
+    {
+      "id": "local-no-duplicate-v1",
+      "query": "无穹书院培养方案和招生人数",
+      "top_k": 10,
+      "expected_local_any_id_groups": [["wuqiong-deck-curriculum", "wuqiong-critique-admission-numbers"]],
+      "forbidden_local_result_ids": ["wuqiong-guide-v1"],
+      "required_guards": ["requires_live_check"]
+    },
+    {
+      "id": "local-generic-official-query-stays-clean",
+      "query": "北大本科招生咨询电话和邮箱是什么",
+      "top_k": 5,
+      "expected_any_id_groups": [["bkzs-home", "bkzs-notices-index"]],
+      "expect_no_local_results": true,
+      "required_guards": ["requires_live_check"]
     }
   ]
 }
