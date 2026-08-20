@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run deterministic Top-K and risk-guard evaluations."""
+"""Run deterministic local/official Top-K and risk-guard evaluations."""
 
 import argparse
 import json
@@ -23,6 +23,7 @@ def evaluate_case(case, sources):
         sources=sources,
     )
     result_ids = [item["id"] for item in result["results"]]
+    local_result_ids = [item["id"] for item in result.get("local_results", [])]
     for group in case.get("expected_any_id_groups", []):
         if not set(group) & set(result_ids):
             failures.append(f"Top-{top_k} 缺少任一来源: {group}; 实际={result_ids}")
@@ -46,6 +47,25 @@ def evaluate_case(case, sources):
     forbidden_results = sorted(set(result_ids) & set(case.get("forbidden_result_ids", [])))
     if forbidden_results:
         failures.append(f"Top-{top_k} 出现禁止来源: {forbidden_results}")
+    if case.get("expect_no_official_results") and result_ids:
+        failures.append(f"预期无官方结果；实际={result_ids}")
+    for group in case.get("expected_local_any_id_groups", []):
+        if not set(group) & set(local_result_ids):
+            failures.append(f"本地 Top-{top_k} 缺少任一片段: {group}; 实际={local_result_ids}")
+    allowed_local_top1 = case.get("expected_local_top1_ids")
+    if allowed_local_top1 and (
+        not local_result_ids or local_result_ids[0] not in allowed_local_top1
+    ):
+        failures.append(
+            f"本地 Top-1 应属于 {allowed_local_top1}; 实际={local_result_ids[:1]}"
+        )
+    forbidden_local = sorted(
+        set(local_result_ids) & set(case.get("forbidden_local_result_ids", []))
+    )
+    if forbidden_local:
+        failures.append(f"本地 Top-{top_k} 出现禁止片段: {forbidden_local}")
+    if case.get("expect_no_local_results") and local_result_ids:
+        failures.append(f"预期无本地结果；实际={local_result_ids}")
     return result, failures
 
 
@@ -87,6 +107,7 @@ def main(argv=None):
             "ok": not failures,
             "failures": failures,
             "result_ids": [item["id"] for item in result["results"]],
+            "local_result_ids": [item["id"] for item in result.get("local_results", [])],
             "guards": result["guards"],
         })
     payload = {
@@ -102,7 +123,10 @@ def main(argv=None):
     else:
         for detail in details:
             marker = "PASS" if detail["ok"] else "FAIL"
-            print(f"{marker} {detail['id']}: {detail['result_ids']} guards={detail['guards']}")
+            print(
+                f"{marker} {detail['id']}: local={detail['local_result_ids']} "
+                f"official={detail['result_ids']} guards={detail['guards']}"
+            )
             for failure in detail["failures"]:
                 print(f"  - {failure}")
         print(f"\n{payload['passed']}/{payload['total']} passed")
