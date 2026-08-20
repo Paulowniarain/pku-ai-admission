@@ -1,0 +1,305 @@
+{
+  "schema_version": 1,
+  "description": "覆盖北大总招、元培、通班、智能学科、时效风险与错误前提的离线检索评测。",
+  "cases": [
+    {
+      "id": "pku-undergrad-portal",
+      "query": "北京大学本科招生官网",
+      "top_k": 5,
+      "expected_any_id_groups": [["bkzs-home", "bkzs-notices-index"]],
+      "expected_inferred_scopes": ["pku-general"],
+      "expected_inferred_stages": ["undergraduate"]
+    },
+    {
+      "id": "gaokao-policy",
+      "query": "北大普通高考招生计划和录取信息去哪查",
+      "top_k": 5,
+      "expected_any_id_groups": [["bkzs-gaokao-index", "bkzs-home"]],
+      "required_guards": ["requires_live_check"]
+    },
+    {
+      "id": "strong-foundation-2026",
+      "query": "北京大学2026强基计划招生简章",
+      "top_k": 3,
+      "expected_any_id_groups": [["bkzs-strong-foundation-2026"]]
+    },
+    {
+      "id": "undergrad-results",
+      "query": "北大本科录取名单公示在哪里",
+      "top_k": 5,
+      "expected_any_id_groups": [["bkzs-public-results-index"]],
+      "required_guards": ["requires_live_check"]
+    },
+    {
+      "id": "grad-portal",
+      "query": "北京大学研究生招生官方入口",
+      "top_k": 5,
+      "expected_any_id_groups": [["grad-admissions-home", "grad-information-index"]]
+    },
+    {
+      "id": "master-index",
+      "query": "北大硕士招生简章和专业目录",
+      "top_k": 5,
+      "expected_any_id_groups": [["grad-master-brochure-index", "grad-admissions-home"]],
+      "expected_inferred_stages": ["master"],
+      "required_guards": ["requires_live_check"]
+    },
+    {
+      "id": "master-2026",
+      "query": "北京大学2026年硕士研究生招生简章",
+      "top_k": 3,
+      "expected_any_id_groups": [["grad-master-brochure-2026"]]
+    },
+    {
+      "id": "doctor-2026",
+      "query": "北京大学2026博士申请考核招生说明",
+      "top_k": 3,
+      "expected_any_id_groups": [["grad-doctoral-application-2026"]],
+      "expected_inferred_stages": ["doctoral"],
+      "required_guards": ["requires_live_check"]
+    },
+    {
+      "id": "yuanpei-definition",
+      "query": "元培学院是什么",
+      "top_k": 3,
+      "expected_any_id_groups": [["yuanpei-overview"]],
+      "expected_inferred_scopes": ["yuanpei"]
+    },
+    {
+      "id": "yuanpei-free-choice",
+      "query": "元培可以自由选课和自主选择专业吗",
+      "top_k": 5,
+      "expected_any_id_groups": [["yuanpei-free-choice-model"]]
+    },
+    {
+      "id": "yuanpei-cross-major",
+      "query": "元培跨学科专业有哪些",
+      "top_k": 5,
+      "expected_any_id_groups": [["yuanpei-interdisciplinary-majors"]]
+    },
+    {
+      "id": "yuanpei-general-education",
+      "query": "元培通识教育课程",
+      "top_k": 5,
+      "expected_any_id_groups": [["yuanpei-general-education"]]
+    },
+    {
+      "id": "yuanpei-double-major-2026",
+      "query": "元培2026双专业审核结果公示",
+      "top_k": 3,
+      "expected_any_id_groups": [["yuanpei-double-major-results-2026"]]
+    },
+    {
+      "id": "tongban-definition",
+      "query": "通班是什么",
+      "top_k": 5,
+      "expected_any_id_groups": [["yuanpei-tongban-guide-2021", "pku-news-tongban-zhiban"]],
+      "forbidden_guards": ["historical_only_risk"]
+    },
+    {
+      "id": "tongban-full-name",
+      "query": "通用人工智能实验班全称和培养定位",
+      "top_k": 5,
+      "expected_any_id_groups": [["yuanpei-tongban-guide-2021"], ["pku-news-tongban-zhiban", "bkzs-talent-programs-2025", "ai-institute-overview"]]
+    },
+    {
+      "id": "tongban-2021-rules",
+      "query": "2021年通班面向谁，计划多少人",
+      "top_k": 3,
+      "expected_any_id_groups": [["yuanpei-tongban-guide-2021"]],
+      "forbidden_guards": ["historical_only_risk"]
+    },
+    {
+      "id": "tongban-current-rules",
+      "query": "通班现在还招生吗，申请条件和名额是什么",
+      "top_k": 6,
+      "expected_any_id_groups": [["yuanpei-tongban-guide-2021"]],
+      "required_guards": ["requires_live_check", "historical_only_risk"],
+      "forbidden_top1_ids": ["yuanpei-tongban-guide-2021", "sai-graduation-2026"],
+      "forbidden_result_ids": ["eecs-experimental-classes-2025-cohort", "eecs-transfer-major-2025"]
+    },
+    {
+      "id": "tongban-25-wrong-premise",
+      "query": "今年通班是不是仍然招不超过25人",
+      "top_k": 6,
+      "expected_any_id_groups": [["yuanpei-tongban-guide-2021"]],
+      "required_guards": ["requires_live_check", "historical_only_risk"],
+      "forbidden_top1_ids": ["yuanpei-tongban-guide-2021"]
+    },
+    {
+      "id": "tongban-explicit-2026-current",
+      "query": "2026年 通班招生条件和名额",
+      "top_k": 6,
+      "expected_any_id_groups": [["yuanpei-tongban-guide-2021"]],
+      "required_guards": ["requires_live_check", "historical_only_risk"],
+      "forbidden_top1_ids": ["yuanpei-tongban-guide-2021", "sai-graduation-2026"],
+      "forbidden_result_ids": ["bkzs-competition-recommendation-2026", "bkzs-language-recommendation-2026", "bkzs-strong-foundation-2026", "yuanpei-double-major-results-2026", "eecs-transfer-major-2025"]
+    },
+    {
+      "id": "tongban-explicit-2027-current",
+      "query": "2027 年 通班怎么申请，招生人数是多少",
+      "top_k": 6,
+      "expected_any_id_groups": [["yuanpei-tongban-guide-2021"]],
+      "required_guards": ["requires_live_check", "historical_only_risk"],
+      "forbidden_top1_ids": ["yuanpei-tongban-guide-2021"]
+    },
+    {
+      "id": "tongban-vs-zhiban",
+      "query": "通班和智班有什么区别",
+      "top_k": 6,
+      "expected_any_id_groups": [["yuanpei-tongban-guide-2021", "bkzs-talent-programs-2025"], ["sai-zhiban-cultivation"]],
+      "required_guards": ["entity_confusion"]
+    },
+    {
+      "id": "ambiguous-ai-class",
+      "query": "北大的人工智能实验班怎么报",
+      "top_k": 8,
+      "expected_any_id_groups": [["yuanpei-tongban-guide-2021"], ["sai-zhiban-cultivation"]],
+      "required_guards": ["needs_clarification", "requires_live_check"],
+      "expected_inferred_stages": ["undergraduate"]
+    },
+    {
+      "id": "zhiban-definition",
+      "query": "智班是什么",
+      "top_k": 3,
+      "expected_any_id_groups": [["sai-zhiban-cultivation"]]
+    },
+    {
+      "id": "zhiban-builders",
+      "query": "智班由哪些学院共同建设",
+      "top_k": 3,
+      "expected_any_id_groups": [["sai-zhiban-cultivation"]]
+    },
+    {
+      "id": "zhiban-current-selection",
+      "query": "2025级智班实验班选拔通知",
+      "top_k": 4,
+      "expected_any_id_groups": [["eecs-experimental-classes-2025-cohort"]],
+      "required_guards": ["requires_live_check"]
+    },
+    {
+      "id": "zhiban-training-plan",
+      "query": "2025级智班培养方案",
+      "top_k": 4,
+      "expected_any_id_groups": [["eecs-training-plans-2025"]]
+    },
+    {
+      "id": "zhiban-current-deadline",
+      "query": "现在智班报名截止日期是什么时候",
+      "top_k": 6,
+      "expected_any_id_groups": [["eecs-experimental-classes-2025-cohort", "eecs-education-notices-index"]],
+      "required_guards": ["requires_live_check"],
+      "forbidden_top1_ids": ["eecs-experimental-classes-2023-cohort"]
+    },
+    {
+      "id": "sai-overview",
+      "query": "北大智能学院学科沿革和研究方向",
+      "top_k": 4,
+      "expected_any_id_groups": [["sai-overview"]]
+    },
+    {
+      "id": "sai-six-areas",
+      "query": "智能学院机器学习视觉语言机器人研究方向",
+      "top_k": 4,
+      "expected_any_id_groups": [["sai-overview"]]
+    },
+    {
+      "id": "sai-grad-index",
+      "query": "智能学院研究生招生通知在哪里查",
+      "top_k": 5,
+      "expected_any_id_groups": [["sai-graduate-admissions-index"]],
+      "required_guards": ["requires_live_check"]
+    },
+    {
+      "id": "sai-guide-2027",
+      "query": "智能学院2027年研究生招生指南",
+      "top_k": 3,
+      "expected_any_id_groups": [["sai-graduate-guide-2027"]],
+      "required_guards": ["requires_live_check"]
+    },
+    {
+      "id": "sai-guide-2026-history",
+      "query": "智能学院2026年研究生招生指南",
+      "top_k": 3,
+      "expected_any_id_groups": [["sai-graduate-guide-2026"]],
+      "required_guards": ["requires_live_check"]
+    },
+    {
+      "id": "sai-camp-2026",
+      "query": "智能学院2026优秀大学生夏令营通知",
+      "top_k": 3,
+      "expected_any_id_groups": [["sai-summer-camp-2026"]],
+      "expected_inferred_stages": ["summer-camp"]
+    },
+    {
+      "id": "camp-not-admission",
+      "query": "拿到智能学院夏令营优秀营员是不是等于录取",
+      "top_k": 5,
+      "expected_any_id_groups": [["sai-summer-camp-2026"]],
+      "required_guards": ["summer_camp_not_admission", "requires_live_check"]
+    },
+    {
+      "id": "camp-status-effect",
+      "query": "智能学院夏令营优秀营员有什么效力，意味着什么",
+      "top_k": 5,
+      "expected_any_id_groups": [["sai-summer-camp-2026", "sai-graduate-admissions-index"]],
+      "required_guards": ["summer_camp_not_admission", "requires_live_check"],
+      "expected_inferred_stages": ["summer-camp"]
+    },
+    {
+      "id": "ai-institute-definition",
+      "query": "北京大学人工智能研究院是什么",
+      "top_k": 3,
+      "expected_any_id_groups": [["ai-institute-overview"]]
+    },
+    {
+      "id": "ai-institute-grad-route",
+      "query": "人工智能研究院研究生招生依托哪些院系",
+      "top_k": 5,
+      "expected_any_id_groups": [["ai-institute-graduate-admissions"]],
+      "required_guards": ["requires_live_check"]
+    },
+    {
+      "id": "ai-institute-master-route",
+      "query": "人工智能研究院硕士怎么报名",
+      "top_k": 5,
+      "expected_any_id_groups": [["grad-master-brochure-index", "grad-admissions-home"], ["ai-institute-overview"]],
+      "required_guards": ["requires_live_check"],
+      "forbidden_guards": ["multi_unit_doctoral_route"],
+      "expected_inferred_stages": ["master"],
+      "forbidden_top1_ids": ["ai-institute-graduate-admissions"]
+    },
+    {
+      "id": "ai-institute-doctor",
+      "query": "人工智能研究院博士怎么报名，导师和名额有哪些",
+      "top_k": 6,
+      "expected_any_id_groups": [["ai-institute-graduate-admissions"], ["grad-admissions-home", "grad-doctoral-application-2026"]],
+      "required_guards": ["requires_live_check", "multi_unit_doctoral_route"]
+    },
+    {
+      "id": "intelligent-major",
+      "query": "北大智能科学与技术本科专业介绍",
+      "top_k": 5,
+      "expected_any_id_groups": [["bkzs-ai-major-intro", "sai-overview"]]
+    },
+    {
+      "id": "transfer-vs-selection",
+      "query": "转入信科专业和参加智班选拔是一回事吗",
+      "top_k": 7,
+      "expected_any_id_groups": [["eecs-transfer-major-2025"], ["eecs-experimental-classes-2025-cohort", "eecs-education-notices-index"]]
+    },
+    {
+      "id": "yuanpei-unlimited-choice",
+      "query": "元培是不是任何专业都能无条件任选",
+      "top_k": 5,
+      "expected_any_id_groups": [["yuanpei-free-choice-model"]]
+    },
+    {
+      "id": "contact-live-check",
+      "query": "北大本科招生咨询电话和邮箱是什么",
+      "top_k": 5,
+      "expected_any_id_groups": [["bkzs-home", "bkzs-notices-index"]],
+      "required_guards": ["requires_live_check"]
+    }
+  ]
+}

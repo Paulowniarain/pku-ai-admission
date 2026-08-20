@@ -1,0 +1,679 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-08-11",
+  "source_policy": "仅收录北京大学官方域名；动态事实仍须在回答当日回查原页。",
+  "sources": [
+    {
+      "id": "bkzs-home",
+      "title": "北京大学本科招生网",
+      "url": "https://bkzs.pku.edu.cn/",
+      "scope": ["pku-general"],
+      "stage": ["undergraduate", "general"],
+      "authority": "central-admissions",
+      "source_type": "portal",
+      "published_at": null,
+      "temporal": "live-index",
+      "valid_for": {"cycles": ["continuously updated"], "expires_at": null},
+      "summary": "北京大学本科招生的中央官方入口，用于回查当年简章、通知、招生类型与咨询入口。",
+      "keywords": ["北京大学", "本科招生", "本招", "通知公告", "招生简章"],
+      "claims": [
+        {"text": "本科招生动态应以北京大学本科招生网当日页面为准。", "temporal": "live-index"}
+      ]
+    },
+    {
+      "id": "bkzs-gaokao-index",
+      "title": "北京大学本科招生：普通高考",
+      "url": "https://bkzs.pku.edu.cn/zslb/ptgk/index.htm",
+      "scope": ["pku-general"],
+      "stage": ["undergraduate"],
+      "authority": "central-admissions",
+      "source_type": "index",
+      "published_at": null,
+      "temporal": "live-index",
+      "valid_for": {"cycles": ["continuously updated"], "expires_at": null},
+      "summary": "普通高考招生信息索引，适合查找各省招生政策、往年录取信息和当年通知。",
+      "keywords": ["普通高考", "高考", "录取", "分数线", "招生计划"],
+      "claims": [
+        {"text": "高考政策、计划和录取信息具有省份与年度差异。", "temporal": "live-index"}
+      ]
+    },
+    {
+      "id": "bkzs-notices-index",
+      "title": "北京大学本科招生通知公告",
+      "url": "https://bkzs.pku.edu.cn/tzgg/index.htm",
+      "scope": ["pku-general"],
+      "stage": ["undergraduate", "general"],
+      "authority": "central-admissions",
+      "source_type": "index",
+      "published_at": null,
+      "temporal": "live-index",
+      "valid_for": {"cycles": ["continuously updated"], "expires_at": null},
+      "summary": "本科招生年度公告总索引；回答报名、资格、截止时间和结果公示时应优先回查。",
+      "keywords": ["通知公告", "报名", "截止时间", "资格", "公示"],
+      "claims": [
+        {"text": "本科招生年度安排应以通知公告栏目中的最新文件为准。", "temporal": "live-index"}
+      ]
+    },
+    {
+      "id": "bkzs-talent-programs-2025",
+      "title": "北京大学本科招生：特色人才培养项目",
+      "url": "https://bkzs.pku.edu.cn/xkzy/tsxm/index.htm",
+      "scope": ["pku-general", "yuanpei", "tongban", "ai-discipline"],
+      "stage": ["undergraduate"],
+      "authority": "central-admissions",
+      "source_type": "overview",
+      "published_at": "2025-04-21",
+      "temporal": "stable",
+      "valid_for": {"cycles": ["2025 snapshot", "background"], "expires_at": null},
+      "summary": "本科招生网对特色培养项目的汇总介绍，包含元培学院与人工智能研究院相关的人工智能项目入口。",
+      "keywords": ["特色项目", "人才培养", "元培学院", "人工智能", "通班"],
+      "claims": [
+        {"text": "该页用于了解项目版图，不替代项目当年遴选通知。", "temporal": "stable"}
+      ]
+    },
+    {
+      "id": "bkzs-ai-major-intro",
+      "title": "北京大学本科招生专业介绍：智能科学与技术",
+      "url": "https://bkzs.pku.edu.cn/xkzy/xy/xxkxyjsxb/sxkxxy_6/sxkxxyzszy_6/sxl_6/4c0067817e054e1487d28174b6673ecd.htm",
+      "scope": ["pku-general", "ai-discipline"],
+      "stage": ["undergraduate"],
+      "authority": "central-admissions",
+      "source_type": "overview",
+      "published_at": null,
+      "temporal": "stable",
+      "valid_for": {"cycles": ["background"], "expires_at": null},
+      "summary": "本科招生网上的智能科学与技术专业介绍，适合解释专业定位，不承担年度招生规则。",
+      "keywords": ["智能科学与技术", "专业介绍", "智能学科", "本科专业"],
+      "claims": [
+        {"text": "专业介绍属于稳定背景，招生口径仍以当年招生文件为准。", "temporal": "stable"}
+      ]
+    },
+    {
+      "id": "bkzs-strong-foundation-2026",
+      "title": "北京大学2026年强基计划招生简章",
+      "url": "https://bkzs.pku.edu.cn/tzgg/4dc8487f304e476786627574e8744c27.htm",
+      "scope": ["pku-general"],
+      "stage": ["undergraduate"],
+      "authority": "central-admissions",
+      "source_type": "annual-notice",
+      "published_at": "2026-04-15",
+      "temporal": "current-cycle",
+      "valid_for": {"cycles": ["2026"], "expires_at": null},
+      "summary": "2026年强基计划官方年度文件；适用专业、报名条件和日程只适用于该轮次。",
+      "keywords": ["2026", "强基计划", "招生简章", "报名条件", "日程"],
+      "claims": [
+        {"text": "本文件的资格和时间安排只适用于2026年强基计划。", "temporal": "current-cycle"}
+      ]
+    },
+    {
+      "id": "bkzs-competition-recommendation-2026",
+      "title": "北京大学2026年学科竞赛保送生招生简章",
+      "url": "https://bkzs.pku.edu.cn/tzgg/7cb048dd07d6453b903a3739b28eee14.htm",
+      "scope": ["pku-general"],
+      "stage": ["undergraduate"],
+      "authority": "central-admissions",
+      "source_type": "annual-notice",
+      "published_at": "2025-12-30",
+      "temporal": "current-cycle",
+      "valid_for": {"cycles": ["2026"], "expires_at": null},
+      "summary": "2026年学科竞赛保送生官方年度简章，不能外推至其他招生类型或年份。",
+      "keywords": ["2026", "学科竞赛", "竞赛保送生", "保送", "招生简章"],
+      "claims": [
+        {"text": "竞赛保送生与普通高考、强基计划是不同招生路径。", "temporal": "current-cycle"}
+      ]
+    },
+    {
+      "id": "bkzs-language-recommendation-2026",
+      "title": "北京大学2026年外语类专业保送生招生简章",
+      "url": "https://bkzs.pku.edu.cn/tzgg/d24d1f3ac99d4263bd2ab51442a7a7a8.htm",
+      "scope": ["pku-general"],
+      "stage": ["undergraduate"],
+      "authority": "central-admissions",
+      "source_type": "annual-notice",
+      "published_at": "2025-12-30",
+      "temporal": "current-cycle",
+      "valid_for": {"cycles": ["2026"], "expires_at": null},
+      "summary": "2026年外语类专业保送生官方年度简章，用于区分保送类别和当年资格。",
+      "keywords": ["2026", "外语类", "保送生", "招生简章", "报名资格"],
+      "claims": [
+        {"text": "外语类保送资格与要求须按2026年简章逐项核对。", "temporal": "current-cycle"}
+      ]
+    },
+    {
+      "id": "bkzs-public-results-index",
+      "title": "北京大学本科招生信息公开与名单公示",
+      "url": "https://bkzs.pku.edu.cn/xxgk/mdgs2/index.htm",
+      "scope": ["pku-general"],
+      "stage": ["undergraduate", "general"],
+      "authority": "central-admissions",
+      "source_type": "index",
+      "published_at": null,
+      "temporal": "live-index",
+      "valid_for": {"cycles": ["continuously updated"], "expires_at": null},
+      "summary": "本科招生信息公开和名单公示索引；个体结果应通过指定查询渠道核验。",
+      "keywords": ["信息公开", "名单公示", "录取结果", "查询"],
+      "claims": [
+        {"text": "名单与结果以官方公示或个人查询系统为准。", "temporal": "live-index"}
+      ]
+    },
+    {
+      "id": "grad-admissions-home",
+      "title": "北京大学研究生招生网",
+      "url": "https://admission.pku.edu.cn/",
+      "scope": ["pku-general", "ai-discipline"],
+      "stage": ["master", "doctoral", "general"],
+      "authority": "central-admissions",
+      "source_type": "portal",
+      "published_at": null,
+      "temporal": "live-index",
+      "valid_for": {"cycles": ["continuously updated"], "expires_at": null},
+      "summary": "北京大学硕士、博士招生的中央官方入口，年度简章、专业目录与公示应从此核验。",
+      "keywords": ["研究生招生", "研招", "硕士", "博士", "专业目录"],
+      "claims": [
+        {"text": "研究生招生规则以研究生招生网和招生院系当年文件共同为准。", "temporal": "live-index"}
+      ]
+    },
+    {
+      "id": "grad-master-brochure-index",
+      "title": "北京大学硕士研究生招生简章索引",
+      "url": "https://admission.pku.edu.cn/zsxx/sszs/zsjz/index.htm",
+      "scope": ["pku-general", "ai-discipline"],
+      "stage": ["master"],
+      "authority": "central-admissions",
+      "source_type": "index",
+      "published_at": null,
+      "temporal": "live-index",
+      "valid_for": {"cycles": ["continuously updated"], "expires_at": null},
+      "summary": "硕士招生简章年度索引，适合定位最新总章并结合专业目录和院系细则。",
+      "keywords": ["硕士", "硕招", "招生简章", "专业目录", "报考"],
+      "claims": [
+        {"text": "硕士报考需同时核对总章、专业目录和院系说明。", "temporal": "live-index"}
+      ]
+    },
+    {
+      "id": "grad-information-index",
+      "title": "北京大学研究生招生信息索引",
+      "url": "https://admission.pku.edu.cn/zsxx/index3.htm",
+      "scope": ["pku-general", "ai-discipline"],
+      "stage": ["master", "doctoral", "general"],
+      "authority": "central-admissions",
+      "source_type": "index",
+      "published_at": null,
+      "temporal": "live-index",
+      "valid_for": {"cycles": ["continuously updated"], "expires_at": null},
+      "summary": "研究生招生信息总索引，汇集硕士、博士、港澳台及其他招生栏目。",
+      "keywords": ["招生信息", "研究生", "硕士", "博士", "通知"],
+      "claims": [
+        {"text": "不同培养层次与招生类型须进入对应栏目核验。", "temporal": "live-index"}
+      ]
+    },
+    {
+      "id": "grad-master-brochure-2026",
+      "title": "北京大学2026年硕士研究生招生简章",
+      "url": "https://admission.pku.edu.cn/docs/20251009101959431969.pdf",
+      "scope": ["pku-general", "ai-discipline"],
+      "stage": ["master"],
+      "authority": "central-admissions",
+      "source_type": "annual-notice",
+      "published_at": "2025-10-09",
+      "temporal": "current-cycle",
+      "valid_for": {"cycles": ["2026"], "expires_at": null},
+      "summary": "2026年硕士研究生招生总章PDF；具体智能学科方向仍需结合专业目录和院系细则。",
+      "keywords": ["2026", "硕士研究生", "招生简章", "报考条件", "学费"],
+      "claims": [
+        {"text": "总章不能替代专业目录和招生院系当年说明。", "temporal": "current-cycle"}
+      ]
+    },
+    {
+      "id": "grad-doctoral-application-2026",
+      "title": "北京大学2026年博士研究生申请考核招生说明",
+      "url": "https://admission.pku.edu.cn/zsxx/bszs/bssqkh/3608.htm",
+      "scope": ["pku-general", "ai-discipline"],
+      "stage": ["doctoral"],
+      "authority": "central-admissions",
+      "source_type": "annual-notice",
+      "published_at": "2025-10-10",
+      "temporal": "current-cycle",
+      "valid_for": {"cycles": ["2026"], "expires_at": null},
+      "summary": "2026年博士申请考核官方说明入口；申请人还需核对具体院系招生说明。",
+      "keywords": ["2026", "博士", "申请考核", "招生说明", "院系"],
+      "claims": [
+        {"text": "博士申请考核的材料与流程还受招生院系当年细则约束。", "temporal": "current-cycle"}
+      ]
+    },
+    {
+      "id": "yuanpei-overview",
+      "title": "北京大学元培学院简介",
+      "url": "https://yuanpei.pku.edu.cn/xygk/xyjj/index.htm",
+      "scope": ["yuanpei"],
+      "stage": ["undergraduate", "general"],
+      "authority": "school-or-institute",
+      "source_type": "overview",
+      "published_at": null,
+      "temporal": "stable",
+      "valid_for": {"cycles": ["background"], "expires_at": null},
+      "summary": "元培学院官方简介，介绍从2001年元培计划到2007年成立学院的沿革与本科教育理念。",
+      "keywords": ["元培学院", "元培计划", "学院简介", "本科教育", "2001", "2007"],
+      "claims": [
+        {"text": "北京大学自2001年实施元培计划，并于2007年成立元培学院。", "temporal": "stable"}
+      ]
+    },
+    {
+      "id": "yuanpei-interdisciplinary-majors",
+      "title": "元培学院跨学科专业",
+      "url": "https://yuanpei.pku.edu.cn/jyjx/kxkzy/index.htm",
+      "scope": ["yuanpei"],
+      "stage": ["undergraduate"],
+      "authority": "school-or-institute",
+      "source_type": "overview",
+      "published_at": null,
+      "temporal": "stable",
+      "valid_for": {"cycles": ["background"], "expires_at": null},
+      "summary": "元培学院跨学科专业官方入口，用于认识项目设置；具体开放项目与要求需查当年通知。",
+      "keywords": ["元培", "跨学科专业", "交叉学科", "本科培养"],
+      "claims": [
+        {"text": "跨学科专业设置与开放情况可能调整，须结合当年教学通知。", "temporal": "stable"}
+      ]
+    },
+    {
+      "id": "yuanpei-free-choice-model",
+      "title": "元培学院教育特色：自由选课与自主选择专业",
+      "url": "https://yuanpei.pku.edu.cn/jyjx/jyts/93yuanpei491056.htm",
+      "scope": ["yuanpei"],
+      "stage": ["undergraduate"],
+      "authority": "school-or-institute",
+      "source_type": "overview",
+      "published_at": null,
+      "temporal": "stable",
+      "valid_for": {"cycles": ["background"], "expires_at": null},
+      "summary": "元培培养特色介绍，强调导师指导、自由选课和在教学资源条件下自主选择专业。",
+      "keywords": ["元培", "自由选课", "自主选择专业", "导师制", "培养模式"],
+      "claims": [
+        {"text": "自主选择专业以教学资源条件和培养要求为边界，不应表述为无条件任选。", "temporal": "stable"},
+        {"text": "学生通常在导师指导下逐步确定专业方向。", "temporal": "stable"}
+      ]
+    },
+    {
+      "id": "yuanpei-tongban-guide-2021",
+      "title": "北京大学通用人工智能实验班（通班）2021年招生简章",
+      "url": "https://yuanpei.pku.edu.cn/jyjx/jxxx/93yuanpei516434.htm",
+      "scope": ["yuanpei", "tongban", "ai-discipline"],
+      "stage": ["undergraduate"],
+      "authority": "school-or-institute",
+      "source_type": "annual-notice",
+      "published_at": "2021-09-16",
+      "temporal": "historical",
+      "valid_for": {"cycles": ["2021"], "expires_at": "2021-09-23"},
+      "summary": "通班2021年官方招生简章，可用于解释项目与当年规则；对象、名额、课程和日程均不得外推为现行政策。",
+      "keywords": ["通班", "通用人工智能实验班", "2021", "元培", "人工智能", "招生简章"],
+      "claims": [
+        {"text": "通班全称为北京大学通用人工智能实验班。", "temporal": "stable"},
+        {"text": "2021年简章面向元培学院本科生，计划不超过25人。", "temporal": "historical"},
+        {"text": "2021年的申请对象、人数与日期只可作为历史参考。", "temporal": "historical"}
+      ]
+    },
+    {
+      "id": "yuanpei-double-major-results-2026",
+      "title": "元培学院2026年双专业审核结果公示",
+      "url": "https://yuanpei.pku.edu.cn/xwgg/tz/a5c40dacbc2f47e796c356b3fcb9d920.htm",
+      "scope": ["yuanpei"],
+      "stage": ["undergraduate"],
+      "authority": "school-or-institute",
+      "source_type": "annual-notice",
+      "published_at": "2026-05-27",
+      "temporal": "current-cycle",
+      "valid_for": {"cycles": ["2026"], "expires_at": null},
+      "summary": "元培学院2026年双专业审核结果公示，说明具体项目审核有独立年度流程。",
+      "keywords": ["元培", "2026", "双专业", "审核结果", "公示"],
+      "claims": [
+        {"text": "该结果公示仅对应2026年相关审核，不代表后续年度规则。", "temporal": "current-cycle"}
+      ]
+    },
+    {
+      "id": "yuanpei-general-education",
+      "title": "元培学院通识教育课程",
+      "url": "https://yuanpei.pku.edu.cn/jyjx/tskc/index.htm",
+      "scope": ["yuanpei"],
+      "stage": ["undergraduate"],
+      "authority": "school-or-institute",
+      "source_type": "overview",
+      "published_at": null,
+      "temporal": "stable",
+      "valid_for": {"cycles": ["background"], "expires_at": null},
+      "summary": "元培学院通识教育与特色课程入口，用于介绍培养体系，不用于推断招生资格。",
+      "keywords": ["元培", "通识教育", "特色课程", "课程体系"],
+      "claims": [
+        {"text": "培养课程信息不能直接推出招生或项目遴选资格。", "temporal": "stable"}
+      ]
+    },
+    {
+      "id": "yuanpei-program-background",
+      "title": "元培培养模式与专业教育介绍",
+      "url": "https://yuanpei.pku.edu.cn/xwgg/xw/93yuanpei488535.htm",
+      "scope": ["yuanpei"],
+      "stage": ["undergraduate"],
+      "authority": "school-or-institute",
+      "source_type": "overview",
+      "published_at": null,
+      "temporal": "historical",
+      "valid_for": {"cycles": ["background snapshot"], "expires_at": null},
+      "summary": "元培培养模式的较早官方介绍，适合作为理念背景，具体制度需用当前教学页面复核。",
+      "keywords": ["元培", "培养模式", "专业教育", "历史介绍"],
+      "claims": [
+        {"text": "较早的培养模式介绍不能替代当前教学管理规定。", "temporal": "historical"}
+      ]
+    },
+    {
+      "id": "sai-overview",
+      "title": "北京大学智能学院简介",
+      "url": "https://sai.pku.edu.cn/xygk/xyjj.htm",
+      "scope": ["ai-discipline"],
+      "stage": ["undergraduate", "master", "doctoral", "general"],
+      "authority": "school-or-institute",
+      "source_type": "overview",
+      "published_at": null,
+      "temporal": "stable",
+      "valid_for": {"cycles": ["background"], "expires_at": null},
+      "summary": "智能学院官方简介，概述学科沿革、培养层次和视觉、语言、机器学习等主要研究方向。",
+      "keywords": ["智能学院", "智能科学与技术", "学科沿革", "研究方向", "本科", "博士"],
+      "claims": [
+        {"text": "北京大学2002年成立智能科学系，2003年创建智能科学与技术专业，2004年开始本科招生。", "temporal": "stable"},
+        {"text": "学院介绍的主要方向包括计算机视觉、自然语言处理、机器学习、认知推理、机器人和多智能体。", "temporal": "stable"}
+      ]
+    },
+    {
+      "id": "sai-zhiban-cultivation",
+      "title": "北京大学智能科学与技术专业实验班（智班）培养",
+      "url": "https://sai.pku.edu.cn/rcpy/zbpy.htm",
+      "scope": ["ai-discipline"],
+      "stage": ["undergraduate"],
+      "authority": "school-or-institute",
+      "source_type": "overview",
+      "published_at": null,
+      "temporal": "stable",
+      "valid_for": {"cycles": ["background"], "expires_at": null},
+      "summary": "智班官方培养介绍，说明其由智能学院与信息科学技术学院共同建设；当年招募条件另查教务通知。",
+      "keywords": ["智班", "智能科学与技术专业实验班", "智能学院", "信息科学技术学院", "培养"],
+      "claims": [
+        {"text": "智班全称为北京大学智能科学与技术专业实验班。", "temporal": "stable"},
+        {"text": "智班由智能学院和信息科学技术学院共同建设。", "temporal": "stable"},
+        {"text": "2022年9月17日举行智班2021/2022级开班仪式；页面记载首批智班学生共28人。", "temporal": "historical"}
+      ]
+    },
+    {
+      "id": "sai-graduate-admissions-index",
+      "title": "北京大学智能学院研究生招生",
+      "url": "https://sai.pku.edu.cn/rcpy/yjszs.htm",
+      "scope": ["ai-discipline"],
+      "stage": ["master", "doctoral", "summer-camp"],
+      "authority": "school-or-institute",
+      "source_type": "index",
+      "published_at": null,
+      "temporal": "live-index",
+      "valid_for": {"cycles": ["continuously updated"], "expires_at": null},
+      "summary": "智能学院研究生招生通知索引，是定位最新招生指南、夏令营和结果公示的首选入口。",
+      "keywords": ["智能学院", "研究生招生", "硕士", "博士", "夏令营", "招生指南"],
+      "claims": [
+        {"text": "智能学院研究生招生动态须以该索引的最新通知和北大研招网为准。", "temporal": "live-index"}
+      ]
+    },
+    {
+      "id": "sai-graduate-guide-2027",
+      "title": "智能学院2027年招生指南",
+      "url": "https://sai.pku.edu.cn/info/1034/9565.htm",
+      "scope": ["ai-discipline"],
+      "stage": ["master", "doctoral"],
+      "authority": "school-or-institute",
+      "source_type": "annual-notice",
+      "published_at": "2026-05-28",
+      "temporal": "current-cycle",
+      "valid_for": {"cycles": ["2027"], "expires_at": null},
+      "summary": "智能学院面向2027招生年度的研究生指南；应结合随后发布的北大总章、专业目录和细则。",
+      "keywords": ["智能学院", "2027", "研究生招生指南", "硕士", "博士", "方向"],
+      "claims": [
+        {"text": "该指南面向2027招生年度，后续总章与专业目录如有更新应一并核对。", "temporal": "current-cycle"}
+      ]
+    },
+    {
+      "id": "sai-summer-camp-2026",
+      "title": "北京大学智能学院关于举办2026年优秀大学生夏令营的通知",
+      "url": "https://sai.pku.edu.cn/info/1034/9575.htm",
+      "scope": ["ai-discipline"],
+      "stage": ["summer-camp", "master"],
+      "authority": "school-or-institute",
+      "source_type": "annual-notice",
+      "published_at": "2026-05-29",
+      "temporal": "historical",
+      "valid_for": {"cycles": ["2026 summer camp"], "expires_at": null},
+      "summary": "智能学院2026年夏令营通知；截至资料核验日该活动已结束，入营或营员称号不等于最终录取。",
+      "keywords": ["智能学院", "2026", "夏令营", "优秀大学生", "入营", "推免"],
+      "claims": [
+        {"text": "夏令营、入营或优秀营员状态不能表述为已经录取。", "temporal": "stable"},
+        {"text": "该通知仅适用于2026年夏令营。", "temporal": "historical"}
+      ]
+    },
+    {
+      "id": "sai-graduate-guide-2026",
+      "title": "智能学院2026年招生指南",
+      "url": "https://sai.pku.edu.cn/info/1034/3462.htm",
+      "scope": ["ai-discipline"],
+      "stage": ["master", "doctoral"],
+      "authority": "school-or-institute",
+      "source_type": "annual-notice",
+      "published_at": "2025-08-29",
+      "temporal": "historical",
+      "valid_for": {"cycles": ["2026"], "expires_at": null},
+      "summary": "智能学院2026招生年度研究生指南，适合回答该年度问题或作历史比较。",
+      "keywords": ["智能学院", "2026", "研究生招生指南", "硕士", "博士"],
+      "claims": [
+        {"text": "2026招生指南不得直接替代2027及以后年度文件。", "temporal": "historical"}
+      ]
+    },
+    {
+      "id": "eecs-experimental-classes-2025-cohort",
+      "title": "信息科学技术学院2025级三个实验班报名通知",
+      "url": "https://eecs.pku.edu.cn/info/1046/10323.htm",
+      "scope": ["ai-discipline"],
+      "stage": ["undergraduate"],
+      "authority": "school-or-institute",
+      "source_type": "annual-notice",
+      "published_at": "2026-04-17",
+      "temporal": "current-cycle",
+      "valid_for": {"cycles": ["2025 cohort", "2026 selection"], "expires_at": null},
+      "summary": "面向2025级本科生的实验班选拔通知，包含智班相关附件；对象和流程仅适用于该次院内选拔。",
+      "keywords": ["2025级", "实验班", "智班", "选拔", "本科生", "信息科学技术学院"],
+      "claims": [
+        {"text": "这是校内培养项目选拔通知，不是面向高考考生的独立统招简章。", "temporal": "current-cycle"}
+      ]
+    },
+    {
+      "id": "eecs-training-plans-2025",
+      "title": "2025年本科生各专业培养方案",
+      "url": "https://eecs.pku.edu.cn/info/1083/7183.htm",
+      "scope": ["ai-discipline"],
+      "stage": ["undergraduate"],
+      "authority": "school-or-institute",
+      "source_type": "training-plan",
+      "published_at": "2025-08-17",
+      "temporal": "current-cycle",
+      "valid_for": {"cycles": ["2025 cohort"], "expires_at": null},
+      "summary": "2025级本科生培养方案入口，含智能科学与技术和智班培养方案附件。",
+      "keywords": ["2025级", "培养方案", "智班", "智能科学与技术", "课程"],
+      "claims": [
+        {"text": "培养方案按入学年级适用，不应与其他年级方案混用。", "temporal": "current-cycle"}
+      ]
+    },
+    {
+      "id": "eecs-education-notices-index",
+      "title": "信息科学技术学院教务通知",
+      "url": "https://eecs.pku.edu.cn/tzgg/jwtz.htm",
+      "scope": ["ai-discipline"],
+      "stage": ["undergraduate", "general"],
+      "authority": "school-or-institute",
+      "source_type": "index",
+      "published_at": null,
+      "temporal": "live-index",
+      "valid_for": {"cycles": ["continuously updated"], "expires_at": null},
+      "summary": "信息科学技术学院教务通知索引，用于回查实验班选拔、转专业和培养方案等最新通知。",
+      "keywords": ["信息科学技术学院", "教务通知", "实验班", "选拔", "转专业", "培养方案"],
+      "claims": [
+        {"text": "智班等校内选拔的现行安排应从最新教务通知核验。", "temporal": "live-index"}
+      ]
+    },
+    {
+      "id": "eecs-experimental-classes-2023-cohort",
+      "title": "信息科学技术学院2023级三个实验班报名通知",
+      "url": "https://eecs.pku.edu.cn/info/1046/6154.htm",
+      "scope": ["ai-discipline"],
+      "stage": ["undergraduate"],
+      "authority": "school-or-institute",
+      "source_type": "annual-notice",
+      "published_at": "2024-04-12",
+      "temporal": "historical",
+      "valid_for": {"cycles": ["2023 cohort", "2024 selection"], "expires_at": null},
+      "summary": "2023级本科生实验班选拔的历史通知，可比较制度变化，不得用作当前报名依据。",
+      "keywords": ["2023级", "实验班", "智班", "选拔", "历史"],
+      "claims": [
+        {"text": "该通知的对象和时间只适用于2023级对应选拔。", "temporal": "historical"}
+      ]
+    },
+    {
+      "id": "eecs-transfer-major-2025",
+      "title": "2025年信息科学技术学院内部专业调整方案",
+      "url": "https://eecs.pku.edu.cn/info/1046/6937.htm",
+      "scope": ["pku-general", "ai-discipline"],
+      "stage": ["undergraduate"],
+      "authority": "school-or-institute",
+      "source_type": "annual-notice",
+      "published_at": "2025-04-14",
+      "temporal": "historical",
+      "valid_for": {"cycles": ["2025"], "expires_at": null},
+      "summary": "信息科学技术学院2025年内部专业调整方案，用于说明专业调整与高考招生、实验班选拔是不同流程。",
+      "keywords": ["2025", "内部专业调整", "转专业", "信息科学技术学院", "本科生", "申请"],
+      "claims": [
+        {"text": "内部专业调整、专业分流和实验班选拔不能混为同一招生流程。", "temporal": "stable"}
+      ]
+    },
+    {
+      "id": "ai-institute-graduate-admissions",
+      "title": "北京大学人工智能研究院2026级博士生招生说明",
+      "url": "https://www.ai.pku.edu.cn/info/1063/1704.htm",
+      "scope": ["ai-discipline"],
+      "stage": ["doctoral"],
+      "authority": "school-or-institute",
+      "source_type": "annual-notice",
+      "published_at": "2025-06-24",
+      "temporal": "historical",
+      "valid_for": {"cycles": ["2026 doctoral"], "expires_at": null},
+      "summary": "人工智能研究院2026级博士生招生信息，说明该年度依托多个院系招生；不得外推为硕士或其他年度规则。",
+      "keywords": ["人工智能研究院", "2026", "博士生招生", "博士", "智能学院", "计算机学院", "集成电路学院"],
+      "claims": [
+        {"text": "2026级博士生招生信息列出依托智能学院、计算机学院、集成电路学院等院系的路径。", "temporal": "historical"},
+        {"text": "具体博士招生细则应以北京大学研究生招生网公布信息为准。", "temporal": "live-index"}
+      ]
+    },
+    {
+      "id": "ai-institute-overview",
+      "title": "北京大学人工智能研究院简介",
+      "url": "https://www.ai.pku.edu.cn/info/1037/3013.htm",
+      "scope": ["ai-discipline", "tongban"],
+      "stage": ["undergraduate", "master", "doctoral", "general"],
+      "authority": "school-or-institute",
+      "source_type": "overview",
+      "published_at": "2024-09-18",
+      "temporal": "stable",
+      "valid_for": {"cycles": ["background"], "expires_at": null},
+      "summary": "人工智能研究院官方简介，用于解释其跨院系研究与人才培养平台定位，不等同于单一招生院系。",
+      "keywords": ["人工智能研究院", "AI研究院", "跨学科", "人才培养", "通班"],
+      "claims": [
+        {"text": "人工智能研究院是跨学科平台，不能仅凭研究院名称推断唯一报名院系。", "temporal": "stable"}
+      ]
+    },
+    {
+      "id": "pku-news-tongban-zhiban",
+      "title": "朱松纯：智能学科的源起、演进与趋势——北京大学智能学科的探索与实践",
+      "url": "https://news.pku.edu.cn/xwzh/30316a7400a049eeab610a210fce895f.htm",
+      "scope": ["yuanpei", "tongban", "ai-discipline"],
+      "stage": ["undergraduate"],
+      "authority": "academic-unit",
+      "source_type": "news",
+      "published_at": "2023-03-15",
+      "temporal": "historical",
+      "valid_for": {"cycles": ["background snapshot"], "expires_at": null},
+      "summary": "北大新闻网对通班、智班建设背景和差异的官方报道，适合辅助释义，不替代教学或招生通知。",
+      "keywords": ["通班", "智班", "通用人工智能实验班", "智能科学与技术专业实验班", "文理交叉", "理工基础"],
+      "claims": [
+        {"text": "报道将通班概括为文理大交叉、授予人工智能学士学位的培养项目。", "temporal": "historical"},
+        {"text": "报道将智班概括为理工强基础、授予智能科学与技术学士学位的培养项目。", "temporal": "historical"}
+      ]
+    },
+    {
+      "id": "ist-ai-training-white-paper",
+      "title": "北京大学发布《人工智能人才培养方案》白皮书",
+      "url": "https://www.ist.pku.edu.cn/info/1082/2018.htm",
+      "scope": ["ai-discipline", "tongban"],
+      "stage": ["undergraduate", "master", "doctoral", "general"],
+      "authority": "academic-unit",
+      "source_type": "news",
+      "published_at": "2022-09-17",
+      "temporal": "historical",
+      "valid_for": {"cycles": ["background snapshot"], "expires_at": null},
+      "summary": "智能学科官方站对人工智能人才培养体系白皮书的介绍，可作为体系背景，不能充当年度招生文件。",
+      "keywords": ["人工智能", "人才培养体系", "白皮书", "通班", "智班", "智能学科"],
+      "claims": [
+        {"text": "白皮书页面用于理解培养体系，不提供现行报名资格或名额。", "temporal": "historical"}
+      ]
+    },
+    {
+      "id": "sai-graduation-2026",
+      "title": "智能学院隆重举行2026年毕业典礼",
+      "url": "https://sai.pku.edu.cn/info/1082/10295.htm",
+      "scope": ["ai-discipline", "tongban"],
+      "stage": ["undergraduate", "master", "doctoral", "general"],
+      "authority": "school-or-institute",
+      "source_type": "news",
+      "published_at": "2026-07-03",
+      "temporal": "current-cycle",
+      "valid_for": {"cycles": ["2026 snapshot"], "expires_at": null},
+      "summary": "智能学院2026年毕业典礼官方报道，提供通班、智班学生培养存在性的近期旁证，不用于回答招生规则。",
+      "keywords": ["智能学院", "2026", "毕业", "通班", "智班", "人才培养"],
+      "claims": [
+        {"text": "新闻报道可证明项目培养活动，但不能证明当前仍按旧规则招生。", "temporal": "current-cycle"}
+      ]
+    },
+    {
+      "id": "ist-current-news-index",
+      "title": "北京大学智能学科新闻与活动入口",
+      "url": "https://www.ist.pku.edu.cn/",
+      "scope": ["ai-discipline"],
+      "stage": ["undergraduate", "master", "doctoral", "general"],
+      "authority": "academic-unit",
+      "source_type": "portal",
+      "published_at": null,
+      "temporal": "live-index",
+      "valid_for": {"cycles": ["continuously updated"], "expires_at": null},
+      "summary": "北大智能学科官方门户，用于了解学科活动和组织入口；正式招生仍回到本招网、研招网和学院通知。",
+      "keywords": ["智能学科", "北京大学", "人工智能", "学术活动", "人才培养"],
+      "claims": [
+        {"text": "学科门户不是招生录取结果或年度简章的替代来源。", "temporal": "live-index"}
+      ]
+    },
+    {
+      "id": "sai-youth-forum-2026",
+      "title": "智通未来 能者聚首：第十一届北大智能青年论坛",
+      "url": "https://www.ist.pku.edu.cn/info/1080/9625.htm",
+      "scope": ["ai-discipline"],
+      "stage": ["doctoral", "general"],
+      "authority": "academic-unit",
+      "source_type": "annual-notice",
+      "published_at": "2026-06-02",
+      "temporal": "historical",
+      "valid_for": {"cycles": ["2026 forum"], "expires_at": null},
+      "summary": "智能学科近期学术活动样本，仅用于展示研究交流生态，不能推断招生、导师名额或录取。",
+      "keywords": ["人工智能", "青年科学家论坛", "智能学院", "研究方向", "2026"],
+      "claims": [
+        {"text": "学术活动参与信息不能当作招生或导师名额依据。", "temporal": "historical"}
+      ]
+    }
+  ]
+}
